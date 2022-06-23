@@ -1,0 +1,136 @@
+.footer-text {
+  padding: 10px 0;
+  margin-bottom: 0;
+}
+.registration__heading {
+  font-size: 26px;
+  font-weight: 600;
+  color: black;
+  text-transform: uppercase;
+}
+.wrapper {
+  min-height: 100vh;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.wrapper.wrapper-todo {
+  align-items: flex-start;
+}
+.form-control.password {
+  position: relative;
+}
+.card-home {
+  margin: 0 auto;
+}
+#typed-title {
+  margin-bottom: 0;
+}
+.todo-list {
+  padding-top: 60px;
+}
+.todo-list_list {
+  list-style: none;
+  border: 1px solid gray;
+  padding-left: 0;
+}
+.todo-list_item {
+  border-bottom: 1px solid grey;
+  position: relative;
+  padding: 8px 95px 8px 25px;
+  background-color: #F8F8F8;
+}
+.todo-list_item:last-of-type {
+  border-bottom: 0;
+}
+.todo-list_title {
+  margin-bottom: 0;
+  font-size: 20px;
+  line-height: 1.4;
+  color: black;
+}
+.todo-list_link {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #DCDCDC;
+  transition: background-color .5s ease-in;
+}
+.todo-list_link:hover {
+  background-color: white;
+}
+.todo-list_link.edit {
+  width: 40px;
+  height: 100%;
+  right: 80px;
+  border-right: 1px solid gray;
+  border-left: 1px solid gray;
+  color: black;
+}
+.todo-list_link.delete {
+  width: 40px;
+  height: 100%;
+  right: 0;
+  color: red;
+}
+.todo-list_link.completed {
+  height: 100%;
+  width: 40px;
+  right: 40px;
+  color:#2e8b57;
+  border-right: 1px solid gray;
+}
+.todo-list_link.undo {
+  height: 100%;
+  width: 40px;
+  right: 0;
+  color: black;
+  background-color: white;
+  border-left: 1px solid gray;
+  transition: background-color .5s ease-in;
+}
+.todo-list_link.undo:hover {
+  background-color: #DCDCDC;
+}
+.todo-list_user {
+  text-align: center;
+  margin: 10px 0 30px;
+}
+.todo-input {
+  margin-bottom: 50px;
+}
+.todo-form {
+  position: relative;
+}
+.todo-create {
+  position: absolute;
+  top: 50%;
+  right: 0;
+}
+
+.admin-wrapper-padding {
+  padding: 150px 0;
+}
+
+.admin-title {
+  margin-bottom: 60px;
+  text-align: center;
+}
+
+.users {
+  min-height: 90vh;
+  display: flex;
+  align-items: flex-start;
+  padding-top: 200px;
+}
+
+.admin-todos-title {
+  padding: 50px 0 60px;
+}
+.admin-pagination {
+  margin-top: 40px;
+}
