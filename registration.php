@@ -1,24 +1,21 @@
 <?php 
 include "./includes/header.php"; 
-include "classes/user.php"; 
 
-$username = "";
-$email = "";
+if(isset($_POST['create_user'])) {
+  $username = $_POST['username'];
+  $user_email = $_POST['email'];
+  $user_role = $_POST['user_role'];
+  $password = $_POST['password'];
+  $cpassword = $_POST['confirm_password'];
 
-if(count($_POST) > 0) {
-  $User = new User();
-  $errors = $User->register($_POST); 
-  extract($_POST);
+  include "classes/Db.php";
+  include "classes/Register.php";
+  include "classes/RegisterController.php";
+  $user = new RegisterController($username, $user_email, $user_role, $password, $cpassword);
+
+  $user->validateUser();
 }
-
 ?>
-<?php if(isset($errors) && is_array($errors) && count($errors) > 0) : ?>
-  <div class="alert alert-danger" role="alert">
-    <?php foreach($errors as $error) : ?>
-      <?php echo $error; ?><br>
-    <?php endforeach; ?>
-  </div>
-<?php endif; ?>
 <div class="wrapper bg-light">
   <div class="container">
     <div class="row d-flex justify-content-center">
@@ -30,11 +27,11 @@ if(count($_POST) > 0) {
         <form action="" method="POST">
           <div class="form-group mt-2">
             <label for="username" class="mb-1 ">Username</label>
-            <input type="text" id="username" class="form-control" name="username" placeholder="Username" value="<?php echo $username; ?>" required>
+            <input type="text" id="username" class="form-control" name="username" placeholder="Username" required>
           </div>
           <div class="form-group mt-2">
             <label for="email" class="mb-1 ">Email</label>
-            <input type="email" id="email" class="form-control" name="email" value="<?php echo $email; ?>" placeholder="Email" required>
+            <input type="email" id="email" class="form-control" name="email" placeholder="Email" required>
             <div class="invalid-feedback">Email is required!</div>
           </div>
           <div class="form-group mt-3">

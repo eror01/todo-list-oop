@@ -1,11 +1,19 @@
 <?php
 include "./includes/header.php";
-include "./includes/nav.php"; ?>
+include "./includes/nav.php"; 
 
-<div class="wrapper bg-light">
+if(isset($_SESSION['loggedIn']) && isset($_SESSION['username'])) {
+  $loggedIn = $_SESSION['loggedIn'];
+  $username = $_SESSION['username']; 
+}
+
+?>
+
+<div class="wrapper bg-light <?php if($loggedIn) { echo "wrapper-todo"; } else { echo ""; } ?>">
   <div class="container">
     <div class="row">
       <div class="col-12">
+        <?php if(!$loggedIn) : ?>
           <div class="card card-home" style="width: 25rem;">
             <div class="card-body">
               <h5 class="card-title">Welcome to Todo List App</h5>
@@ -15,6 +23,11 @@ include "./includes/nav.php"; ?>
               <a href="registration.php" class="card-link">Register</a>
             </div>
           </div>
+        <?php else : ?>
+          <div class="todo-app">
+            <?php include "./includes/todo_list.php"; ?>
+          </div>
+        <?php endif; ?>
       </div>
     </div>
   </div>
