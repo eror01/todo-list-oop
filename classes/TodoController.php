@@ -5,7 +5,8 @@ class TodoController extends Db
 {
 
   public $todoContent;
-  // #### CRUD ####
+  public $todoItemCount; 
+
   // function createTodo(todo_content, $todo_author, $todo_user_id)
   public function createTodo($todo_content, $todo_author, $todo_user_id) 
   {
@@ -61,6 +62,7 @@ class TodoController extends Db
   {
     $stmt = $this->connect()->prepare('UPDATE todos SET todo_content = ? WHERE todo_id = ?;');
     $stmt->execute(array($todo_content_updated, $todo_id));
+    header("Location: index.php");
   }
 
   // delete Todo
@@ -110,7 +112,25 @@ class TodoController extends Db
     }
   }
 
-  
+  public function setTodoItemCount($count)
+  {
+    $this->todoItemCount = $count;
+  }
 
+  public function getTodoItemCount($user_id)
+  {
+    $stmt = $this->connect()->prepare('SELECT COUNT(*) FROM todos WHERE todo_user_id = ?;');
+    $stmt->execute(array($user_id));
+    $counter = $stmt->fetchColumn();
+    $this->setTodoItemCount($counter);
+  }
+
+  public function updateUserListItemCount($user_id)
+  {
+    $this->getTodoItemCount($user_id);
+    $count = $this->todoItemCount;
+    $stmt = $this->connect()->prepare('UPDATE users SET user_list_count = ?WHERE user_id = ?;');
+    $stmt->execute(array($count, $user_id));
+  }
 
 }

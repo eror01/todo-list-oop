@@ -1,5 +1,9 @@
 <?php
 include "functions.php";
+if (isset($_SESSION['username'])) {
+  $username = $_SESSION['username'];
+  $userID = $_SESSION['userID'];
+}
 createTodo(); ?>
 <section class="todo-list" id="todo">
   <div class="row  justify-content-center mb-4">
@@ -9,7 +13,16 @@ createTodo(); ?>
         if ($username) {
           echo ucfirst($username) . "'s" . " Todo List";
         } ?>
-        <p>Todo Item Count: <span class="badge bg-primary"><?php // echo $counter; ?></span></p>
+        <p>Todo Item Count: <span class="badge bg-primary">
+          <?php 
+          if(isset($userID)) {
+            $userItemCount = new TodoController();
+            $userItemCount->updateUserListItemCount($userID);
+            echo $userItemCount->todoItemCount;
+          } else {
+            echo '0';
+          }
+          ?></span></p>
       </h1>
     </div>
     <div class="col-10">
@@ -25,7 +38,7 @@ createTodo(); ?>
         ?>
         <form action="" method="POST">
           <div class="input-group">
-            <input type="text" class="form-control todo-input" value="<?php echo $todo->todoContent; ?>" name="todo-content_updated" id="todo-content" placeholder="Update your todo" required>
+            <input type="text" class="form-control todo-input" value="<?php echo $todoEdit->todoContent; ?>" name="todo-content_updated" id="todo-content" placeholder="Update your todo" required>
             <span class="input-group-btn">
               <button class="btn btn-dark" name="update_todo" type="submit">Update Todo</button>
             </span>
@@ -55,7 +68,6 @@ createTodo(); ?>
       <h1 class="todo-list_user">Completed Todos</h1>
     </div>
     <div class="col-10">
-      <!-- show delete and updateiscompleted todo -->
       <?php 
       showTodosComplete();     
       undoIsCompleted(); 
