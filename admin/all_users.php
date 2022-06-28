@@ -23,29 +23,36 @@ if(isset($_GET['delete_user'])) {
         <div class="accordion" id="accordion">
             <?php  
             $user->displayAllUserInfo();
-            ?>
-            <div class="accordion-item">
-              <h2 class="accordion-header" id="heading-<?php // echo $user_id; ?>">
-                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-<?php // echo $user_id; ?>" aria-expanded="true" aria-controls="collapse<?php // echo $user_id; ?>">
-                  <?php // echo $user_name; ?>
-                </button>
-              </h2>
-              <div id="collapse-<?php //echo $user_id; ?>" class="accordion-collapse collapse" aria-labelledby="heading-<?php //echo $user_id; ?>" data-bs-parent="#accordion">
-                <div class="accordion-body">
-                  <ul class="list-group">
-                    <li class="list-group-item d-flex justify-content-between">User ID: <span><?php //echo $user_id; ?></span></li>
-                    <li class="list-group-item d-flex justify-content-between">User Email: <span><?php //echo $user_email; ?></span></li>
-                    <li class="list-group-item d-flex justify-content-between">User Role: <span><?php //echo $user_role ?></span></li>
-                    <li class="list-group-item d-flex justify-content-between">User Todo Item Count: <span class="badge bg-primary rounded-pill"><?php //echo $user_todo_count; ?></span></li>
-                    <li class="list-group-item d-flex justify-content-between">
-                      <a href="all_users?edit_user=<?php //echo $user_id; ?>" class="btn btn-outline-dark">Edit User</a>
-                      <a href="all_todos?user_todo=<?php //echo $user_id; ?>" class="btn btn-outline-dark">User Todo's</a>
-                      <a href="all_users?delete_user=<?php //echo $user_id; ?>" class="btn btn-outline-dark">Delete User</a>
-                    </li>
-                  </ul>
+            foreach($user->userArr as $user) {
+              $user_id = $user['user_id'];
+              $user_name = $user['user_name'];
+              $user_email = $user['user_email'];
+              $user_role = $user['user_role'];
+              $user_list_count = $user['user_list_count'];
+              ?>
+              <div class="accordion-item">
+                <h2 class="accordion-header" id="heading-<?php  echo $user_id; ?>">
+                  <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-<?php  echo $user_id; ?>" aria-expanded="true" aria-controls="collapse<?php  echo $user_id; ?>">
+                    <?php  echo $user_name; ?>
+                  </button>
+                </h2>
+                <div id="collapse-<?php echo $user_id; ?>" class="accordion-collapse collapse" aria-labelledby="heading-<?php echo $user_id; ?>" data-bs-parent="#accordion">
+                  <div class="accordion-body">
+                    <ul class="list-group">
+                      <li class="list-group-item d-flex justify-content-between">User ID: <span><?php echo $user_id; ?></span></li>
+                      <li class="list-group-item d-flex justify-content-between">User Email: <span><?php echo $user_email; ?></span></li>
+                      <li class="list-group-item d-flex justify-content-between">User Role: <span><?php echo $user_role ?></span></li>
+                      <li class="list-group-item d-flex justify-content-between">User Todo Item Count: <span class="badge bg-primary rounded-pill"><?php echo $user_list_count; ?></span></li>
+                      <li class="list-group-item d-flex justify-content-between">
+                        <a href="all_users?edit_user=<?php echo $user_id; ?>" class="btn btn-outline-dark">Edit User</a>
+                        <a href="all_todos?user_todo=<?php echo $user_id; ?>" class="btn btn-outline-dark">User Todo's</a>
+                        <a href="all_users?delete_user=<?php echo $user_id; ?>" class="btn btn-outline-dark">Delete User</a>
+                      </li>
+                    </ul>
+                  </div>
                 </div>
               </div>
-            </div>
+            <?php } ?>
         </div>
       </div>
       <div class="col-8 d-flex flex-column justify-content-center">

@@ -3,11 +3,7 @@ include "Db.php";
 
 class Admin extends Db 
 {
-  public $username;
-  public $user_email;
-  public $user_role;
-  public $user_todo_count;
-  public $user_id;
+  public $userArr;
 
   protected function getFourUsersAndItemCount()
   {
@@ -32,27 +28,16 @@ class Admin extends Db
     }
   }
 
-  protected function setFieldValues($username, $email, $role, $count, $userId)
+  protected function setArray($row)
   {
-    $this->username = $username;
-    $this->user_email = $email;
-    $this->user_role = $role;
-    $this->user_todo_count = $count;
-    $this->user_id = $userId;
+    $this->userArr = array($row);
   }
 
   protected function getAllUserInfo()
   {
     $stmt = $this->connect()->query('SELECT * FROM users WHERE NOT user_role = "admin";');
     while($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-      $userArr[] = $row;
-      
-      // $username = $row['user_name'];
-      // $user_id = $row['user_id'];
-      // $user_email = $row['user_email'];
-      // $user_role = $row['user_role'];
-      // $user_todo_count = $row['user_list_count'];
-      // $this->setFieldValues($username, $user_email, $user_role, $user_todo_count, $user_id );
+      $this->userArr[] = $row;
     }
   }
 
