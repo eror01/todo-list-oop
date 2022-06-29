@@ -3,7 +3,12 @@ include "Db.php";
 
 class Admin extends Db 
 {
-  public $userArr;
+  public $userAllArr;
+  public $userSingleArr; 
+  public $userTodoArr;
+  public $username;
+  public $todoCount;
+  public $userAllTodosArr;
 
   protected function getFourUsersAndItemCount()
   {
@@ -28,16 +33,101 @@ class Admin extends Db
     }
   }
 
-  protected function setArray($row)
+  protected function setUserAllArray($row)
   {
-    $this->userArr = array($row);
+    $this->userAllArr = array($row);
+  }
+
+  protected function setUserSingleArray($row)
+  {
+    $this->userSingleArr = array($row);
+  }
+
+  protected function setUserTodoArray($row)
+  {
+    $this->userTodoArr = array($row);
+  }
+
+  protected function setUsername($username) 
+  {
+    $this->username = $username;
+  }
+
+  protected function setCount($count)
+  {
+    $this->todoCount = $count;
+  }
+
+  protected function setAllTodosArr($row)
+  {
+    $this->userAllTodosArr = array($row);
   }
 
   protected function getAllUserInfo()
   {
     $stmt = $this->connect()->query('SELECT * FROM users WHERE NOT user_role = "admin";');
     while($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-      $this->userArr[] = $row;
+      $this->userAllArr[] = $row;
+    }
+  }
+
+  protected function deleteUserWithID($user_id)
+  {
+    $stmt = $this->connect()->prepare('DELETE FROM users WHERE user_id = ?;');
+    $stmt->execute(array($user_id));
+    header("Location: all_users.php");
+  }
+
+  protected function getUserInfo($user_id)
+  {
+    $stmt = $this->connect()->prepare('SELECT * FROM users WHERE user_id = ?;');
+    $stmt->execute(array($user_id));
+    while($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+      $this->userSingleArr[] = $row;
+    }
+  }
+
+  protected function updateUsernameAndRole($username, $user_id, $role)
+  {
+    $stmt = $this->connect()->prepare('UPDATE users SET user_name = ?,  user_role = ? WHERE user_id = ?;');
+    $stmt->execute(array($username, $role, $user_id));
+    header("Location: all_users.php");
+  }
+
+  protected function getUsername($user_id)
+  {
+    $stmt = $this->connect()->prepare('SELECT user_name FROM users WHERE user_id = ?;');
+    $stmt->execute(array($user_id));
+    while($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+      $this->setUsername($row['user_name']);
+    }
+  }
+
+  protected function getAllUserTodos($user_id)
+  {
+    $stmt = $this->connect()->prepare('SELECT * FROM todos WHERE todo_user_id = ?;');
+    $stmt->execute(array($user_id));
+    while($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+      $this->userTodoArr[] = $row;
+    }
+  }
+
+  protected function getAllTodosAndPaginate($per_page, $page_1)
+  {
+    $stmt = $this->connect()->prepare('SELECT * FROM todos');
+    $stmt->execute();
+    if($stmt->rowCount() > 0) {
+      $result = $stmt->rowCount();
+      $result = ceil($result / $per_page);
+      $this->setCount($result);
+    }
+
+    $stmt = $this->connect()->prepare('SELECT * FROM todos LIMIT ?, ?');
+    $stmt->bindParam(1, $page_1, PDO::PARAM_INT);
+    $stmt->bindParam(2, $per_page, PDO::PARAM_INT);
+    $stmt->execute();
+    while($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+      $this->userAllTodosArr[] = $row;
     }
   }
 

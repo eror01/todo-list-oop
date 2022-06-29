@@ -7,14 +7,17 @@ $user = new AdminController(); ?>
 
 if(isset($_GET['delete_user'])) {
   $delete_user = $_GET['delete_user'];
-  $delete_user = mysqli_real_escape_string($connection, $delete_user);
-  if(is_numeric($delete_user)) {
-    $query = "DELETE FROM users WHERE user_id = {$delete_user} ";
-    $delete_user_query = mysqli_query($connection, $query);
-    header("Location: all_users.php");
+  $user->deleteUser($delete_user);
+}
+if(isset($_GET['edit_user'])) {
+  $edit_user = $_GET['edit_user'];
+  if(isset($_POST['update_user'])) {
+    $updated_username = $_POST['update_username'];
+    $updated_username = preg_replace('/\s+/', '_', $updated_username);
+    $updated_role = $_POST['update_role'];
+    $user->displayUpdatedUsernameAndRole($updated_username, $edit_user,  $updated_role);
   }
 }
-
 ?>
 <section class="users">
   <div class="container">
@@ -23,7 +26,7 @@ if(isset($_GET['delete_user'])) {
         <div class="accordion" id="accordion">
             <?php  
             $user->displayAllUserInfo();
-            foreach($user->userArr as $user) {
+            foreach($user->userAllArr as $user) {
               $user_id = $user['user_id'];
               $user_name = $user['user_name'];
               $user_email = $user['user_email'];
@@ -57,16 +60,14 @@ if(isset($_GET['delete_user'])) {
       </div>
       <div class="col-8 d-flex flex-column justify-content-center">
         <?php
+        $user = new AdminController();
         if (isset($_GET['edit_user'])) {
           $edit_user_id = $_GET['edit_user'];
-          $edit_user_id = mysqli_real_escape_string($connection, $edit_user_id);
-          if(is_numeric($edit_user_id)) {
-            $query = "SELECT * FROM users WHERE user_id = {$edit_user_id} ";
-            $edit_user_query = mysqli_query($connection, $query);
-            while ($row = mysqli_fetch_assoc($edit_user_query)) {
-              $user_name = $row['user_name'];
-              $user_role = $row['user_role'];
-          }
+          $user->editUser($edit_user_id);
+          foreach($user->userSingleArr as $user) {
+            $user_name = $user['user_name'];
+            $user_role = $user['user_role'];
+          
         ?>
             <form action="" method="POST">
               <div class="input-group mb-3">

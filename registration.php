@@ -3,6 +3,7 @@ include "./includes/header.php";
 
 if(isset($_POST['create_user'])) {
   $username = $_POST['username'];
+  $username = preg_replace('/\s+/', '_', $username);
   $user_email = $_POST['email'];
   $user_role = $_POST['user_role'];
   $password = $_POST['password'];
