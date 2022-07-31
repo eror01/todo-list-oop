@@ -12,6 +12,7 @@ if(isset($_POST['create_user'])) {
   include "classes/Db.php";
   include "classes/Register.php";
   include "classes/RegisterController.php";
+  $db = new Db();
   $user = new RegisterController($username, $user_email, $user_role, $password, $cpassword);
 
   $user->validateUser();

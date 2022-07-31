@@ -2,6 +2,12 @@
 
 class Register extends Db
 {
+  private $db;
+
+  public function __construct($db)
+  {
+    $this->db = $db;  
+  }
 
   protected function registerUser($username, $email, $role, $password)
   {
